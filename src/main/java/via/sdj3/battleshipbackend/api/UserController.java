@@ -2,6 +2,7 @@ package via.sdj3.battleshipbackend.api;
 
 import Exceptions.InvalidPasswordException;
 import Exceptions.InvalidUsernameException;
+import Exceptions.UsernameTakenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class UserController {
     this.userService = userService;
   }
 
-  @PostMapping
+  @PostMapping("/validateUser")
   public ResponseEntity<User> validateUser(@RequestBody User user){
     User validatedUser;
     try {
@@ -33,5 +34,16 @@ public class UserController {
       return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
     }
     return new ResponseEntity<>(validatedUser, HttpStatus.OK);
+  }
+
+  @PostMapping("/registerUser")
+  public ResponseEntity registerUser(@RequestBody User user){
+    try {
+      userService.registerUser(user.getUsername(), user.getPassword());
+      return new ResponseEntity(HttpStatus.OK);
+    }
+    catch (UsernameTakenException e) {
+      return new ResponseEntity(HttpStatus.CONFLICT);
+    }
   }
 }

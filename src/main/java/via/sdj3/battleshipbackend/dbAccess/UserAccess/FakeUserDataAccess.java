@@ -1,7 +1,8 @@
-package via.sdj3.battleshipbackend.dbAccess;
+package via.sdj3.battleshipbackend.dbAccess.UserAccess;
 
 import Exceptions.InvalidPasswordException;
 import Exceptions.InvalidUsernameException;
+import Exceptions.UsernameTakenException;
 import org.springframework.stereotype.Repository;
 import via.sdj3.battleshipbackend.model.User;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository("testRepository")
-public class FakeUserDataAccess implements UserDao {
+public class FakeUserDataAccess implements UserAccess {
   private List<User> userList;
 
   public FakeUserDataAccess() {
@@ -30,5 +31,9 @@ public class FakeUserDataAccess implements UserDao {
       throw new InvalidPasswordException("Invalid password");
     }
     return filteredUser;
+  }
+
+  @Override public void registerUser(String username, String password)
+      throws UsernameTakenException {
   }
 }
