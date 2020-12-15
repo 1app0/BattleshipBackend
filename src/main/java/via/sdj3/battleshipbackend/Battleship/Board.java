@@ -18,17 +18,25 @@ public class Board {
     for (int y = 0; y < rows; y++) {
       for (int x = 0; x < columns; x++) {
         GameTile gameTile = new GameTile(x, y ,this);
-        gameTiles[x][y] = gameTile;
+        gameTiles[y][x] = gameTile;
       }
     }
   }
 
   public GameTile getGameTile(int x, int y) {
-    return gameTiles[x][y];
+    return gameTiles[y][x];
   }
 
   public int getShips() {
     return ships;
+  }
+
+  public int getColumns() {
+    return columns;
+  }
+
+  public int getRows() {
+    return rows;
   }
 
   public boolean placeShip(Ship ship, int x, int y) {

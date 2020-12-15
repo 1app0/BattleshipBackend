@@ -6,8 +6,10 @@ import via.sdj3.battleshipbackend.Battleship.Board;
 
 @Service("battleshipService")
 public class BattleshipService {
+  private BattleshipGame game;
+
   public Board getGameConfiguration() {
-    BattleshipGame game = new BattleshipGame();
+    game = new BattleshipGame();
     Thread thread = new Thread(game);
     thread.start();
 

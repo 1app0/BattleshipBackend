@@ -2,6 +2,7 @@ package via.sdj3.battleshipbackend.Battleship;
 
 public class Ship {
   //type == hitPoints == length of the ship, also controls number of ships
+  //probably too much responsibility for one variable...
   private int type;
   private boolean isVertical;
   private int hitPoints;

@@ -1,7 +1,5 @@
 package util;
 
-import org.springframework.stereotype.Component;
-
 public class Message {
   private String message;
   private MessageType type;

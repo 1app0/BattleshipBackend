@@ -55,7 +55,8 @@ public class BattleshipGame implements Runnable {
       if (playerBoard.getShips() == 0) {
         System.out.println("YOU DIED");
         System.exit(0);
-        //When a client shoots, api receives the information about the shot and sends back information about bot shot, if bot wins sens the correct info
+        //When a client shoots, api receives the information about the shot and sends back information about bot shot,
+        // if bot wins sends the correct info
       }
     }
   }
