@@ -25,18 +25,7 @@ public class BattleshipGame implements Runnable {
 
   public int[] getPlacementOfBotShips() {
     //creates a simple integer array that holds 1 if a ship is on a gameTile and 0 if it's not
-    int[] botShipPlacement = new int[enemyBoard.getRows() * enemyBoard.getColumns()];
-    for (int y = 0; y < enemyBoard.getRows(); y++) {
-      for (int x = 0; x < enemyBoard.getColumns(); x++) {
-        int index = enemyBoard.getIndex(x, y);
-        if (enemyBoard.getGameTile(x, y).getShip() == null) {
-          botShipPlacement[index] = 0;
-        } else {
-          botShipPlacement[index] = 1;
-        }
-      }
-    }
-    return botShipPlacement;
+    return enemyBoard.getPlacementOfShipsInInt();
   }
 
   public void botShipPlacement() {

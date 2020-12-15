@@ -24,7 +24,7 @@ public class Board {
     }
   }
 
-  public int getIndex(int x, int y) {
+  private int getIndex(int x, int y) {
     return y * columns + x;
   }
 
@@ -37,12 +37,19 @@ public class Board {
     return ships;
   }
 
-  public int getColumns() {
-    return columns;
-  }
-
-  public int getRows() {
-    return rows;
+  public int[] getPlacementOfShipsInInt() {
+    int[] shipsPlacement = new int[rows * columns];
+    for (int y = 0; y < rows; y++) {
+      for (int x = 0; x < columns; x ++) {
+        int index = getIndex(x, y);
+        if (getGameTile(x, y).getShip() != null) {
+          shipsPlacement[index] = 1;
+        } else {
+          shipsPlacement[index] = 0;
+        }
+      }
+    }
+    return shipsPlacement;
   }
 
   public boolean placeShip(Ship ship, int x, int y) {
