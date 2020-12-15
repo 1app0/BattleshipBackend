@@ -1,6 +1,7 @@
 package via.sdj3.battleshipbackend.service;
 
 import org.springframework.stereotype.Service;
+import util.ApiBoardCommunicationHelper;
 import via.sdj3.battleshipbackend.Battleship.BattleshipGame;
 import via.sdj3.battleshipbackend.Battleship.Board;
 
@@ -8,11 +9,10 @@ import via.sdj3.battleshipbackend.Battleship.Board;
 public class BattleshipService {
   private BattleshipGame game;
 
-  public Board getGameConfiguration() {
+  public ApiBoardCommunicationHelper getGameConfiguration() {
     game = new BattleshipGame();
-    Thread thread = new Thread(game);
-    thread.start();
+    game.botShipPlacement();
 
-    return game.getEnemyBoard();
+    return new ApiBoardCommunicationHelper(game.getPlacementOfBotShips());
   }
 }

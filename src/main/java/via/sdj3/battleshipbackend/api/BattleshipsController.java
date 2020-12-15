@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import util.ApiBoardCommunicationHelper;
 import via.sdj3.battleshipbackend.Battleship.Board;
 import via.sdj3.battleshipbackend.service.BattleshipService;
 
@@ -20,8 +21,8 @@ public class BattleshipsController {
   }
 
   @GetMapping("/startGame")
-  public ResponseEntity<Board> getGameConfiguration() {
-    Board gameConfig = battleshipService.getGameConfiguration();
-    return new ResponseEntity(HttpStatus.OK);
+  public ResponseEntity<ApiBoardCommunicationHelper> getGameConfiguration() {
+    ApiBoardCommunicationHelper helper = battleshipService.getGameConfiguration();
+    return new ResponseEntity(helper, HttpStatus.OK);
   }
 }

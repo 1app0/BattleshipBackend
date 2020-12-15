@@ -18,13 +18,25 @@ public class BattleshipGame implements Runnable {
     enemyBoard = new Board(true);
   }
 
-  public Board getEnemyBoard() {
-    return enemyBoard;
-  }
-
   private void createGame() {
     playerBoard = new Board(false);
     enemyBoard = new Board(true);
+  }
+
+  public int[] getPlacementOfBotShips() {
+    //creates a simple integer array that holds 1 if a ship is on a gameTile and 0 if it's not
+    int[] botShipPlacement = new int[enemyBoard.getRows() * enemyBoard.getColumns()];
+    for (int y = 0; y < enemyBoard.getRows(); y++) {
+      for (int x = 0; x < enemyBoard.getColumns(); x++) {
+        int index = enemyBoard.getIndex(x, y);
+        if (enemyBoard.getGameTile(x, y).getShip() == null) {
+          botShipPlacement[index] = 0;
+        } else {
+          botShipPlacement[index] = 1;
+        }
+      }
+    }
+    return botShipPlacement;
   }
 
   public void botShipPlacement() {
@@ -33,8 +45,8 @@ public class BattleshipGame implements Runnable {
     while(type > 0) {
       int x = random.nextInt(10);
       int y = random.nextInt(10);
-
-      if (enemyBoard.placeShip(new Ship(type, Math.random() < 0.5), x, y)) {
+      Ship ship = new Ship(type, Math.random() < 0.5);
+      if (enemyBoard.placeShip(ship, x, y)) {
         type--;
       }
     }

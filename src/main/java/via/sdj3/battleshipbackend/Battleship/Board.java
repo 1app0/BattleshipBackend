@@ -11,20 +11,26 @@ public class Board {
   private int ships = 5;
   private final int columns = 10;
   private final int rows = 10;
-  private GameTile[][] gameTiles = new GameTile[rows][columns];
+  private GameTile[] gameTiles = new GameTile[columns * rows];
 
   public Board(boolean enemyBoard) {
     this.enemyBoard = enemyBoard;
     for (int y = 0; y < rows; y++) {
       for (int x = 0; x < columns; x++) {
-        GameTile gameTile = new GameTile(x, y ,this);
-        gameTiles[y][x] = gameTile;
+        GameTile gameTile = new GameTile(x, y, this);
+        int index = getIndex(x, y);
+        gameTiles[index] = gameTile;
       }
     }
   }
 
+  public int getIndex(int x, int y) {
+    return y * columns + x;
+  }
+
   public GameTile getGameTile(int x, int y) {
-    return gameTiles[y][x];
+    int index = getIndex(x, y);
+    return gameTiles[index];
   }
 
   public int getShips() {
@@ -70,6 +76,7 @@ public class Board {
         }
 
         GameTile gameTile = getGameTile(x, i);
+
         if (gameTile.getShip() != null) {
           return false;
         }
@@ -85,7 +92,7 @@ public class Board {
       }
     } else {
       for (int i = x; i < x + length; i++) {
-        if (!isValidPoint(i, x)) {
+        if (!isValidPoint(i, y)) {
           return false;
         }
 
@@ -94,8 +101,9 @@ public class Board {
         if (gameTile.getShip() != null) {
           return false;
         }
+
         for (GameTile neighbour : getNeighbours(i, y)) {
-          if (isValidPoint(i, y)) {
+          if (!isValidPoint(i, y)) {
             return false;
           }
           if (neighbour.getShip() != null) {
