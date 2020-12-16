@@ -1,7 +1,6 @@
 package via.sdj3.battleshipbackend.Battleship;
 
-import java.awt.*;
-
+//each "square" from the game is made from this
 public class GameTile {
   private Board board;
   private int x, y;
@@ -36,5 +35,13 @@ public class GameTile {
       return true;
     }
     return false;
+  }
+
+  public int getX() {
+    return x;
+  }
+
+  public int getY() {
+    return y;
   }
 }

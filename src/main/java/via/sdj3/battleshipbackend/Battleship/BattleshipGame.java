@@ -1,7 +1,9 @@
 package via.sdj3.battleshipbackend.Battleship;
 
 import org.springframework.stereotype.Component;
+import via.sdj3.battleshipbackend.model.Coordinate;
 
+import java.util.ArrayList;
 import java.util.Random;
 //TODO implement api communication
 //Threaded class that will be initialized for every game, creating new pairs of boards and ships
@@ -11,10 +13,12 @@ public class BattleshipGame implements BattleshipGameAccess {
   private boolean running = false;
   //holds information about the enemy and the player board
   private Board enemyBoard, playerBoard;
+  //keeps track of the gameTiles that the bot shot
+  private ArrayList<Coordinate> gameTilesShotByBot = new ArrayList<>();
   //controls the turn of the ai
   private boolean enemyTurn = false;
   //controls random ship placement, random shots fired
-  private Random random = new Random();
+  private final Random random = new Random();
 
   public BattleshipGame() {
     playerBoard = new Board(false);
@@ -22,21 +26,30 @@ public class BattleshipGame implements BattleshipGameAccess {
     botShipPlacement();
   }
 
-  private void createGame() {
-    playerBoard = new Board(false);
-    enemyBoard = new Board(true);
+  public boolean shootTile(int x, int y) {
+    //TODO configure from front end so you cant shoot shot gameTiles!!!!!
+    gameTilesShotByBot.clear();
+    GameTile gameTile = enemyBoard.getGameTile(x, y);
+    boolean hit = gameTile.shootTile();
+    if (!hit) {
+      enemyTurn = true;
+      botMove();
+      return false;
+    }
+    return true;
   }
 
   public boolean verifyPlayerShipPlacement(Ship ship, int x ,int y) {
-    if (playerBoard.placeShip(ship, x, y)) {
-      return true;
-    }
-    return false;
+    return playerBoard.placeShip(ship, x, y);
   }
 
   public int[] getPlacementOfBotShips() {
     //creates a simple integer array that holds 1 if a ship is on a gameTile and 0 if it's not
     return enemyBoard.getPlacementOfShipsInInt();
+  }
+
+  public ArrayList<Coordinate> getGameTilesShotByBot() {
+    return gameTilesShotByBot;
   }
 
   public void botShipPlacement() {
@@ -63,12 +76,21 @@ public class BattleshipGame implements BattleshipGameAccess {
       if (gameTile.isShot()) {
         continue;
       }
-      enemyTurn = gameTile.shootTile();
+
+      boolean hitTile = gameTile.shootTile();
+
+      if (hitTile) {
+        Coordinate coordinate = new Coordinate(gameTile.getX(), gameTile.getY());
+        gameTilesShotByBot.add(coordinate);
+      } else {
+        Coordinate coordinate = new Coordinate(gameTile.getX(), gameTile.getY());
+        gameTilesShotByBot.add(coordinate);
+        enemyTurn = false;
+      }
+
       if (playerBoard.getShips() == 0) {
         System.out.println("YOU DIED");
         System.exit(0);
-        //When a client shoots, api receives the information about the shot and sends back information about bot shot,
-        // if bot wins sends the correct info
       }
     }
   }
