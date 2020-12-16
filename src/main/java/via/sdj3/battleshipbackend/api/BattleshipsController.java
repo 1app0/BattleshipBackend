@@ -3,11 +3,10 @@ package via.sdj3.battleshipbackend.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import util.ApiBoardCommunicationHelper;
-import via.sdj3.battleshipbackend.Battleship.Board;
+import org.springframework.web.bind.annotation.*;
+import util.ApiCommunication.ApiBotConfig;
+import util.ApiCommunication.ApiPlayerShipPlacement;
+import via.sdj3.battleshipbackend.Battleship.Ship;
 import via.sdj3.battleshipbackend.service.BattleshipService;
 
 @RestController
@@ -21,8 +20,15 @@ public class BattleshipsController {
   }
 
   @GetMapping("/startGame")
-  public ResponseEntity<ApiBoardCommunicationHelper> getGameConfiguration() {
-    ApiBoardCommunicationHelper helper = battleshipService.getGameConfiguration();
-    return new ResponseEntity(helper, HttpStatus.OK);
+  public ResponseEntity getGameConfiguration() {
+    ApiBotConfig botConfig = new ApiBotConfig();
+    botConfig.setBotShipPlacement(battleshipService.getGameConfiguration());
+    return new ResponseEntity(botConfig, HttpStatus.OK);
+  }
+
+  @PostMapping("/playerPlaceShip")
+  public boolean verifyPlayerShipPlacement(@RequestBody ApiPlayerShipPlacement helper) {
+    Ship shipToBePlaced = new Ship(helper.getShipType(), helper.isVertical());
+    return battleshipService.verifyPlayerShipPlacement(shipToBePlaced, helper.getX(), helper.getY());
   }
 }

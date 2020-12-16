@@ -5,8 +5,8 @@ import Exceptions.InvalidUsernameException;
 import Exceptions.UsernameTakenException;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Component;
-import util.Message;
-import util.MessageType;
+import util.DdCommunication.Message;
+import util.DdCommunication.MessageType;
 import via.sdj3.battleshipbackend.model.User;
 
 import java.io.BufferedReader;
@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.concurrent.*;
 
 @Component("DBAccess")
 public class DatabaseAccess implements DBAccess {

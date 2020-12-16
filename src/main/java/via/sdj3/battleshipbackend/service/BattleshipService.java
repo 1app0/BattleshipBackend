@@ -1,18 +1,24 @@
 package via.sdj3.battleshipbackend.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import util.ApiBoardCommunicationHelper;
-import via.sdj3.battleshipbackend.Battleship.BattleshipGame;
-import via.sdj3.battleshipbackend.Battleship.Board;
+import via.sdj3.battleshipbackend.Battleship.BattleshipGameAccess;
+import via.sdj3.battleshipbackend.Battleship.Ship;
 
 @Service("battleshipService")
 public class BattleshipService {
-  private BattleshipGame game;
+  private BattleshipGameAccess game;
 
-  public ApiBoardCommunicationHelper getGameConfiguration() {
-    game = new BattleshipGame();
-    game.botShipPlacement();
+  @Autowired
+  public BattleshipService(BattleshipGameAccess game) {
+    this.game = game;
+  }
 
-    return new ApiBoardCommunicationHelper(game.getPlacementOfBotShips());
+  public int[] getGameConfiguration() {
+    return game.getPlacementOfBotShips();
+  }
+
+  public boolean verifyPlayerShipPlacement(Ship ship, int x, int y) {
+    return game.verifyPlayerShipPlacement(ship, x, y);
   }
 }

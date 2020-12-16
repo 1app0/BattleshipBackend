@@ -1,9 +1,12 @@
 package via.sdj3.battleshipbackend.Battleship;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Random;
 //TODO implement api communication
 //Threaded class that will be initialized for every game, creating new pairs of boards and ships
-public class BattleshipGame implements Runnable {
+@Component
+public class BattleshipGame implements BattleshipGameAccess {
   //controls start and end of the game
   private boolean running = false;
   //holds information about the enemy and the player board
@@ -16,11 +19,19 @@ public class BattleshipGame implements Runnable {
   public BattleshipGame() {
     playerBoard = new Board(false);
     enemyBoard = new Board(true);
+    botShipPlacement();
   }
 
   private void createGame() {
     playerBoard = new Board(false);
     enemyBoard = new Board(true);
+  }
+
+  public boolean verifyPlayerShipPlacement(Ship ship, int x ,int y) {
+    if (playerBoard.placeShip(ship, x, y)) {
+      return true;
+    }
+    return false;
   }
 
   public int[] getPlacementOfBotShips() {
@@ -60,9 +71,5 @@ public class BattleshipGame implements Runnable {
         // if bot wins sends the correct info
       }
     }
-  }
-
-  @Override public void run() {
-    botShipPlacement();
   }
 }

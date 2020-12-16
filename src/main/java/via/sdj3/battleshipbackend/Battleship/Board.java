@@ -55,7 +55,6 @@ public class Board {
   public boolean placeShip(Ship ship, int x, int y) {
     if (canPlaceShip(ship, x, y)){
       int length = ship.getType();
-
       if (ship.isVertical()) {
         for (int i = y; i < y + length; i++) {
           GameTile gameTile = getGameTile(x, i);

@@ -1,4 +1,4 @@
-package util;
+package util.DdCommunication;
 
 public enum MessageType {
   VALIDATE_USER,

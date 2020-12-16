@@ -1,5 +1,6 @@
-package util;
+package util.DdCommunication;
 
+//class for communicating between tier 2 and tier 3
 public class Message {
   private String message;
   private MessageType type;
