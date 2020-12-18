@@ -1,4 +1,4 @@
-package util.DdCommunication;
+package util.DbCommunication;
 
 //class for communicating between tier 2 and tier 3
 public class Message {

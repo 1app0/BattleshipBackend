@@ -7,10 +7,19 @@ public class Coordinate {
   private int x;
   @JsonProperty("y")
   private int y;
+  @JsonProperty("wasHit")
+  private boolean wasHit;
+  @JsonProperty("botWin")
+  private boolean botWin;
+  @JsonProperty("playerWin")
+  private boolean playerWin;
 
-  public Coordinate(int x, int y) {
+  public Coordinate(int x, int y, boolean wasHit, boolean botWin, boolean playerWin) {
     this.x = x;
     this.y = y;
+    this.wasHit = wasHit;
+    this.botWin = botWin;
+    this.playerWin = playerWin;
   }
 
   public int getX() {
@@ -19,5 +28,17 @@ public class Coordinate {
 
   public int getY() {
     return y;
+  }
+
+  public boolean getWasHit() {
+    return wasHit;
+  }
+
+  public boolean getBotWin() {
+    return botWin;
+  }
+
+  public boolean getPlayerWin() {
+    return playerWin;
   }
 }

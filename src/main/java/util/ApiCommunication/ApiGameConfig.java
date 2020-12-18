@@ -2,8 +2,8 @@ package util.ApiCommunication;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//helper class for sending bot ship placement
-public class ApiBotConfig {
+//helper class for sending bot ship placement NOT USED
+public class ApiGameConfig {
   @JsonProperty("botConfig")
   private int[] botShipPlacement;
 

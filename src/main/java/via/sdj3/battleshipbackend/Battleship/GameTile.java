@@ -21,8 +21,12 @@ public class GameTile {
     this.ship = ship;
   }
 
-  public boolean isShot() {
+  public boolean wasShot() {
     return wasShot;
+  }
+
+  public void setWasShot(boolean shot) {
+    wasShot = shot;
   }
 
   public boolean shootTile() {

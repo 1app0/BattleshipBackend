@@ -5,8 +5,9 @@ import Exceptions.InvalidUsernameException;
 import Exceptions.UsernameTakenException;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Component;
-import util.DdCommunication.Message;
-import util.DdCommunication.MessageType;
+import util.DbCommunication.Message;
+import util.DbCommunication.MessageType;
+import via.sdj3.battleshipbackend.model.GameConfig;
 import via.sdj3.battleshipbackend.model.User;
 
 import java.io.BufferedReader;
@@ -73,5 +74,63 @@ public class DatabaseAccess implements DBAccess {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  //TODO extract method reading input from database server;
+  @Override public String saveGameConfig(GameConfig gameConfig) {
+    String gameConfigAsJson = gson.toJson(gameConfig);
+    Message message = new Message(gameConfigAsJson, MessageType.SAVEGAME);
+    String messageAsJson = gson.toJson(message);
+    out.println(messageAsJson);
+    try {
+      String serverReply = in.readLine();
+      Message serverMessage = gson.fromJson(serverReply, Message.class);
+      if (serverMessage.getType().equals(MessageType.SAVEGAME_RESPONSE)) {
+        return serverMessage.getMessage();
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return "Something went wrong";
+  }
+
+  @Override public boolean isGameSaved(String username) {
+    Message message = new Message(username, MessageType.IS_GAME_SAVED);
+    String messageAsJson = gson.toJson(message);
+    out.println(messageAsJson);
+    try {
+      String serverReply = in.readLine();
+      Message serverMessage = gson.fromJson(serverReply, Message.class);
+      if (serverMessage.getType().equals(MessageType.IS_GAME_SAVED_RESPONSE)) {
+        return Boolean.parseBoolean(serverMessage.getMessage());
+      }
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
+
+  @Override public void deleteGameSave(String username) {
+    Message message = new Message(username, MessageType.DELETE_GAME_SAVE);
+    String messageAsJson = gson.toJson(message);
+    out.println(messageAsJson);
+  }
+
+  @Override public GameConfig loadGameConfig(String username) {
+    Message message = new Message(username, MessageType.LOAD_GAME_CONFIG);
+    String messageAsJson = gson.toJson(message);
+    out.println(messageAsJson);
+    try {
+      String serverReply = in.readLine();
+      Message serverMessage = gson.fromJson(serverReply, Message.class);
+      if (serverMessage.getType().equals(MessageType.LOAD_GAME_CONFIG_RESULT)) {
+        return gson.fromJson(serverMessage.getMessage(), GameConfig.class);
+      }
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }
