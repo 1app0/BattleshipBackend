@@ -270,7 +270,11 @@ public class Board {
         new Point2D.Double(x -1 , y),
         new Point2D.Double(x + 1, y),
         new Point2D.Double(x, y - 1),
-        new Point2D.Double(x, y + 1)
+        new Point2D.Double(x, y + 1),
+        new Point2D.Double(x + 1, y + 1),
+        new Point2D.Double(x + 1, y -1),
+        new Point2D.Double(x - 1, y + 1),
+        new Point2D.Double(x - 1, y - 1)
     };
     List<GameTile> neighbours = new ArrayList<>();
     for (Point2D p : points) {
